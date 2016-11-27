@@ -1,2 +1,5 @@
 .idea/
 Corpus/
+**/*.pyc
+words_fourier_transform.p
+audio_waves.p
