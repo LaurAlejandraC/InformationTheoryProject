@@ -4,6 +4,7 @@ from sklearn.svm import SVC
 import read_data, audio_characteristics
 import numpy as np
 import time
+from xgboost import XGBClassifier
 
 MAX_LENGTH = 164052
 
@@ -34,8 +35,11 @@ audio_waves = load(open("audio_waves.p", "rb"))
 words_fourier_transform = load(open("words_fourier_transform.p", "rb"))
 data, words = prepare_data(words_fourier_transform)
 
-prediction_model = SVC()
+#prediction_model = SVC()
 #prediction_model = RandomForestClassifier(n_estimators=10000, n_jobs=16, verbose=3)
+prediction_model = XGBClassifier(n_estimators=1000, objective="multi:softprob", nthread=8,
+                                 max_depth=10, gamma=1.0, reg_lambda=0.1, reg_alpha=0.1,
+                                 silent=True, subsample=0.9, colsample_bytree=0.9, colsample_bylevel=0.9)
 prediction_model = prediction_model.fit(data, words)
 
 
