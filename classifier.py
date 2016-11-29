@@ -1,5 +1,6 @@
 from pickle import load
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.svm import SVC
 import read_data, audio_characteristics
 import numpy as np
 import time
@@ -33,7 +34,8 @@ audio_waves = load(open("audio_waves.p", "rb"))
 words_fourier_transform = load(open("words_fourier_transform.p", "rb"))
 data, words = prepare_data(words_fourier_transform)
 
-prediction_model = RandomForestClassifier(n_estimators=10000, n_jobs=16, verbose=3)
+prediction_model = SVC()
+#prediction_model = RandomForestClassifier(n_estimators=10000, n_jobs=16, verbose=3)
 prediction_model = prediction_model.fit(data, words)
 
 
