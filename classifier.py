@@ -37,20 +37,17 @@ prediction_model = RandomForestClassifier(n_estimators=10000, n_jobs=16, verbose
 prediction_model = prediction_model.fit(data, words)
 
 
-test_filenames = read_data.get_word_filenames('08')
+test_filenames = read_data.get_word_filenames('05')
 test_audio_waves = read_data.get_audio_waves(test_filenames)
 test_words_fourier_transform = audio_characteristics.fourier_transform(test_audio_waves)
 
 test_data, test_words = prepare_data(test_words_fourier_transform)
 print "Start prediction"
 start = time.time()
-test_data = test_data[:15]
 output = prediction_model.predict(test_data)
 end = time.time()
 print "End prediction"
 print end-start
-
-print output
 
 approved = 0.0
 for i in xrange(len(output)):
