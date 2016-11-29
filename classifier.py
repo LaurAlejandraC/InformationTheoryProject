@@ -45,7 +45,7 @@ test_data, test_words = prepare_data(test_words_fourier_transform)
 print "Start prediction"
 start = time.time()
 test_data = test_data[:15]
-output = prediction_model.predict(test_data, n_jobs=16)
+output = prediction_model.predict(test_data)
 end = time.time()
 print "End prediction"
 print end-start
