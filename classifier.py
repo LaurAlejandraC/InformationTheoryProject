@@ -37,42 +37,34 @@ def load_model():
     data, words = prepare_data(words_fourier_transform)
 
     #prediction_model = SVC()
-    prediction_model = RandomForestClassifier(n_estimators=10000, n_jobs=16, verbose=3)
-    #prediction_model = XGBClassifier(n_estimators=1000, objective="multi:softprob", nthread=8,
-                                     max_depth=10, gamma=1.0, reg_lambda=0.1, reg_alpha=0.1,
-                                     silent=True, subsample=0.9, colsample_bytree=0.9, colsample_bylevel=0.9)
-    data = np.array(data)
-    words = np.array(words)
-    prediction_model = prediction_model.fit(data, words)
-
-    return prediction_model
+    result = RandomForestClassifier(n_estimators=50000, n_jobs=16, verbose=3)
+    #prediction_model = XGBClassifier(n_estimators=1000, objective="multi:softprob", nthread=8,max_depth=10, gamma=1.0, reg_lambda=0.1, reg_alpha=0.1,silent=True, subsample=0.9, colsample_bytree=0.9, colsample_bylevel=0.9)
+    result = result.fit(data, words)
+    return result
 
 
 ## Para llamar función para cargar modelo
-#prediction_model = load_model()
+prediction_model = load_model()
 #output = prediction_model.predict([test])
 
-# test_filenames = read_data.get_word_filenames('05')
-# test_audio_waves = read_data.get_audio_waves(test_filenames)
-# test_words_fourier_transform = audio_characteristics.fourier_transform(test_audio_waves)
-#
-# test_data, test_words = prepare_data(test_words_fourier_transform)
-# print "Start prediction"
-# start = time.time()
-# output = prediction_model.predict(test_data)
-# end = time.time()
-# print "End prediction"
-# print end-start
-#
-# approved = 0.0
-# for i in xrange(len(output)):
-#     if test_words[i] == output[i]:
-#         approved += 1.0
-#
-# print "Accuracy: " + str(approved)
-# approved /= len(output)
-# approved *= 100.0
-# print "Accuracy percentage: " + str(approved)
+test_filenames = read_data.get_word_filenames('05')
+test_audio_waves = read_data.get_audio_waves(test_filenames)
+test_words_fourier_transform = audio_characteristics.fourier_transform(test_audio_waves)
 
-for word in word_filenames:
-    count += len(word_filenames[word])
+test_data, test_words = prepare_data(test_words_fourier_transform)
+print "Start prediction"
+start = time.time()
+output = prediction_model.predict(test_data)
+end = time.time()
+print "End prediction"
+print end-start
+
+approved = 0.0
+for i in xrange(len(output)):
+    if test_words[i] == output[i]:
+        approved += 1.0
+
+print "Accuracy: " + str(approved)
+approved /= len(output)
+approved *= 100.0
+print "Accuracy percentage: " + str(approved)
